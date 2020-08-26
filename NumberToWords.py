@@ -7,43 +7,31 @@ import sys
 from collections import OrderedDict
 
 def main():
-
     try:
-
         while True:
-
             IntegerNumber = ''
 
             try:
-
                 IntegerNumber = int(input('Enter any positive or negative integer (non-decimal number): '))
-
             except ValueError as e:
                 print('Sorry, but that is not a valid integer.')
-
             except Exception as e:
                 print('Sorry, but something went wrong\nError: ',e)
-
             else:
 
                 print('\nWord:\n' + SendIt(str(IntegerNumber)) + '\n')
-
                 print('Roman Numeral:\n' + write_roman(IntegerNumber) + '\n')
-
                 Again()
 
     except Exception as e:
         print('')
 
 def Again():
-
     Continue = input('Would you like to enter another number (Y/N)? ')
-
+    
     while Continue.lower() != 'y' and Continue.lower() != 'n':
-
         print('Sorry, but that is not a valid choice.')
-
-        Continue = input('Would you like to enter another number (Y/N)? ')
+        Contiue = input('Would you like to enter another number (Y/N)? ')
 
     if (Continue.lower() == 'y'):
         print('')
@@ -53,30 +41,24 @@ def Again():
         sys.exit()
 
 def SendIt(FixIt):
-
     try:
-
         Prefixes = ['','-thousand','-million','-billion','-trillion','-quadrillion',
                     '-quintillion','-sextillion','-septillion', '-octillion', '-nonillion',
                     '-decillion', '-undecillion', '-duodecillion', '-tredecillion',
                     '-quattuordecillion','-quindecillion', '-sexdexillion', '-septendecillion',
                     '-octodecillion', '-novemdecillion', '-vigintillion','-centillion']
-
         Negative = False
-
+        
         for i in FixIt:
-
             if i == '0':
                 FixIt = FixIt[1:]
             elif i != '0':
                 break
 
         IntegerNumber = int(FixIt)
-
+        
         if IntegerNumber < 0:
-
             Negative = True
-
             IntegerNumber *= -1
 
         Numbers = [int(x) for x in str(IntegerNumber)]
@@ -85,43 +67,31 @@ def SendIt(FixIt):
             Numbers = [0] + Numbers
 
         Numbers = list(map(str, Numbers))
-
         Numbers = Split(Numbers, len(Numbers) // 3)
-
         NewNumbers = []
 
         for i in Numbers:
-
             AddingToNewNumbers = [int(numeric_string) for numeric_string in i]
-
             NewNumbers.append(AddingToNewNumbers)
 
         Numbers = NewNumbers
-
         ThreeNumbersList = []
 
         for i in Numbers:
-
             Word = ' '.join(ThreeLetterWord(i).split())
-
             ThreeNumbersList.append(Word)
 
         ThreeNumbersList.reverse()
-
         NumberNamesList = []
 
         for i in range(0,len(ThreeNumbersList)):
-
             CorrectWord = ThreeNumbersList[i] + '' + Prefixes[i]
-
             if CorrectWord == Prefixes[i]:
-
                 continue
 
             NumberNamesList.append(CorrectWord)
 
         NumberNamesList.reverse()
-
         ReturnWord = ''
 
         if Negative == True:
@@ -131,32 +101,25 @@ def SendIt(FixIt):
             ReturnWord += ' ' + word
 
         ReturnWord = ' '.join(ReturnWord.split())
-
         return ReturnWord
 
     except IndexError:
         print('I don\'t think that you can actually do something useful with a number that big.')
-
         main()
 
     except Exception as e:
         print('Sorry, but something went wrong.\nError:',e)
 
 def Split(TheList, wanted_parts = 1):
-
     length = len(TheList)
-
     return [TheList[i*length // wanted_parts: (i+1)*length // wanted_parts]
              for i in range(wanted_parts) ]
 
 def ThreeLetterWord(number):
-
    ThreeDigitNumber = int(str(number[0]) + str(number[1]) + str(number[2]))
 
    if ThreeDigitNumber < 100:
-
        if ThreeDigitNumber < 20 and ThreeDigitNumber > 9:
-
            if ThreeDigitNumber == 10:
                return 'ten'
            elif ThreeDigitNumber == 11:
@@ -179,37 +142,27 @@ def ThreeLetterWord(number):
                return 'nineteen'
 
        elif ThreeDigitNumber <= 9:
-
             if ThreeDigitNumber == 0:
-
                 return ''
 
             return WordFor0To9(ThreeDigitNumber)
 
        else:
-
            ReturnWord = WordForTens(number[1]) + ' ' + WordFor0To9(number[2])
-
            return ReturnWord
 
    FinalWord = ''
-
    HundredsWord = WordFor0To9(number[0])
-
    FinalWord = str(HundredsWord) + ' hundred ' + str(FinalWord)
 
    if number[1] == 0:
-
        FinalWord = FinalWord + ' ' + WordFor0To9(number[2])
-
        return FinalWord
 
    number.pop(0)
-
    num = int(str(number[0]) + str(number[1]))
 
    if num < 20:
-
        if num == 10:
            return FinalWord + ' ten'
        elif num == 11:
@@ -232,9 +185,7 @@ def ThreeLetterWord(number):
            return FinalWord + ' nineteen'
 
    else:
-
        TensPlace = WordForTens(number[0])
-
        FinalWord = FinalWord + ' ' + TensPlace + ' ' + WordFor0To9(number[1])
 
    return FinalWord
@@ -259,7 +210,6 @@ def WordForTens(num):
         return 'ninety'
 
 def WordFor0To9(num):
-
     if num == 0:
         return ''
     elif num == 1:
@@ -282,9 +232,7 @@ def WordFor0To9(num):
         return 'nine'
 
 def write_roman(num):
-
     try:
-
         roman = OrderedDict()
         roman[1000] = "M"
         roman[900] = "CM"
@@ -314,7 +262,6 @@ def write_roman(num):
 
     except Exception as e:
         print('Sorry, but I can\'t convert a number that big into a Roman Numeral')
-
         return 0
 
 main()
